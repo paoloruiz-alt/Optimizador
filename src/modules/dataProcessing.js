@@ -45,8 +45,9 @@ export function calculateStats(returns, tradingDays = 252) {
   const means = [];
 
   for (const ticker of tickers) {
-    const dMean = mean(returns[ticker]);
-    const dStd = stdDev(returns[ticker]);
+    const cleanReturns = returns[ticker].filter(v => isFinite(v));
+    const dMean = mean(cleanReturns);
+    const dStd = stdDev(cleanReturns);
     means.push(dMean);
     annualizedReturns.push(dMean * tradingDays);
     annualizedVols.push(dStd * Math.sqrt(tradingDays));
@@ -86,3 +87,4 @@ export function calculateStats(returns, tradingDays = 252) {
     corrMatrix
   };
 }
+
